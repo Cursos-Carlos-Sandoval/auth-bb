@@ -5,10 +5,20 @@ export default class extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
+      // Book info
+      table.increments('book_id').primary()
       table.string('title', 200).notNullable()
       table.integer('author').unsigned().notNullable()
-      table.timestamps(true)
+      table.integer('editorial').unsigned().notNullable()
+      table.string('format', 100).notNullable()
+      table.integer('num_pages').unsigned().notNullable()
+
+      // User info
+      table.foreign('user_id').references('users.user_id').onDelete('cascade')
+
+      // System info
+      table.timestamp('created_at', { useTz: true })
+      table.timestamp('updated_at', { useTz: true })
     })
   }
 

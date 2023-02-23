@@ -4,24 +4,39 @@ import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Luc
 import Book from './Book'
 
 export default class User extends BaseModel {
+  // User info
   @column({ isPrimary: true })
-  public id: number
-
+  public user_id: number
   @column()
-  public name: string
-
+  public first_name: string
+  @column()
+  public last_name: string
   @column()
   public email: string
-
   @column({ serializeAs: null })
   public password: string
+  @column()
+  public dni_type: string
+  @column()
+  public dni: string
+  @column()
+  public profile_id: number
 
+  // User location
+  @column()
+  public address: string
+  @column()
+  public district: string
+  @column()
+  public municipality: string
+  @column()
+  public state: string
+
+  // System data
   @column()
   public rememberMeToken?: string
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
-
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
