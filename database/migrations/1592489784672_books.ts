@@ -1,12 +1,12 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class extends BaseSchema {
+export default class BooksSchema extends BaseSchema {
   protected tableName = 'books'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       // Book info
-      table.increments('book_id').primary()
+      table.increments('book_id').primary().unsigned()
       table.string('title', 200).notNullable()
       table.integer('author').unsigned().notNullable()
       table.integer('editorial').unsigned().notNullable()
@@ -14,6 +14,7 @@ export default class extends BaseSchema {
       table.integer('num_pages').unsigned().notNullable()
 
       // User info
+      table.integer('user_id').unsigned()
       table.foreign('user_id').references('users.user_id').onDelete('cascade')
 
       // System info
