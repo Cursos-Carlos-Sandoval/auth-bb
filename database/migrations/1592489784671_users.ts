@@ -12,7 +12,7 @@ export default class UsersSchema extends BaseSchema {
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('dni_type', 10).notNullable()
-      table.string('dni', 10).notNullable()
+      table.string('dni', 10).notNullable().unique().index('user_dni')
       table.integer('profile_id').unsigned()
       table.foreign('profile_id').references('profiles.profile_id').onDelete('cascade')
 
