@@ -1,51 +1,73 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Book from '../../Models/Book'
+import { BookDataObject } from '../../Utils/types'
 
 export default class BooksController {
-  public async store({ request, response }: HttpContextContract) {
-    const book = new Book()
-    book.title = request.input('title')
-    book.author = request.input('author')
-    await book.save()
-
-    response.status(200).json({ Book: book, msg: 'Record entered correctly' })
+  private async booksExists(id: BookDataObject['book_id']): Promise<boolean> {
+    return Book.findBy('book_id', id) !== null
   }
 
-  public async index() {
-    const books = await Book.query()
-    return books
+  public async getAll() {
+    return Book.all()
   }
 
-  public async show({ params, response }: HttpContextContract) {
+  public async getById(id: Book['book_id']) {
+    return await Book.findBy('book_id', id)
+  }
+
+  public async create({ request, response }: HttpContextContract) {
     try {
-      const book = await Book.find(params.id)
+      const requestData: BookDataObject = request.only([
+        'book_id',
+        'title',
+        'author',
+        'editorial',
+        'format',
+        'num_pages',
+        'user_id',
+      ])
 
-      if (book) {
-        response.status(200).json({ Book: book })
-      } else {
-        response.status(500).json({ msg: 'Record does not exist' })
+      if (await this.booksExists(requestData.book_id)) {
+        return response.status(400).json({ msg: 'Error, this book id is already registered' })
       }
+
+      const book = new Book()
+      book.parseData(requestData)
+      book.save()
+
+      response.status(200).json({ msg: 'Book created!' })
     } catch (error) {
       console.error(error)
+      response.status(500).json({ msg: 'Internal server error!' })
     }
   }
 
-  public async update({ request, response, params }: HttpContextContract) {
-    const book = await Book.find(params.id)
+  public async delete({ request, response }: HttpContextContract) {
+    const id = request.param('id')
+    await Book.query().where('book_id', id).delete()
+    response.status(200).json({ msg: 'Book deleted!' })
+  }
 
-    if (book) {
-      book.title = request.input('title')
-      book.author = request.input('author')
+  public async update({ request, response }: HttpContextContract) {
+    const requestData: BookDataObject = request.only([
+      'book_id',
+      'title',
+      'author',
+      'editorial',
+      'format',
+      'num_pages',
+      'user_id',
+    ])
+    await Book.query().where('book_id', requestData.book_id).update({
+      book_id: requestData.book_id,
+      title: requestData.title,
+      author: requestData.author,
+      editorial: requestData.editorial,
+      format: requestData.format,
+      num_pages: requestData.num_pages,
+      user_id: requestData.user_id,
+    })
 
-      if (await book.save()) {
-        response.status(200).json({ msg: 'Updated successfully', book })
-        return
-      }
-
-      response.status(401).json({ msg: 'Could not update' })
-      return
-    }
-
-    response.status(401).json({ msg: 'Record not found' })
+    response.status(200).json({ msg: 'Book updated!' })
   }
 }

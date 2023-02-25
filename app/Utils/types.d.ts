@@ -15,3 +15,18 @@ export interface UserDataObject {
   municipality: string
   state: string
 }
+
+export interface ProfileDataObject {
+  profile_id: number
+  description: string
+}
+
+export interface BookDataObject {
+  book_id: number
+  title: string
+  author: number
+  editorial: number
+  format: string
+  num_pages: number
+  user_id: UserDataObject.user_id
+}

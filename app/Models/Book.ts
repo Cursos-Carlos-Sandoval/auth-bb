@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BookDataObject } from '../Utils/types'
 
 export default class Book extends BaseModel {
   // Book info
@@ -25,4 +26,14 @@ export default class Book extends BaseModel {
   public createdAt: DateTime
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  public parseData(properties: BookDataObject) {
+    this.book_id = properties.book_id
+    this.title = properties.title
+    this.author = properties.author
+    this.editorial = properties.editorial
+    this.format = properties.format
+    this.num_pages = properties.num_pages
+    this.user_id = properties.user_id
+  }
 }
