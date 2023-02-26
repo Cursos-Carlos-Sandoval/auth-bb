@@ -1,14 +1,11 @@
-import { Response } from '@adonisjs/core/build/standalone'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Profile from '../../Models/Profile'
 import { ProfileDataObject } from '../../Utils/types'
-import { OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
 
 /* TODO reto 3
  [x] Validar la existencia de un usuario por su numero de identificacion
  [ ] Crear al menos tres tipos de perfiles (admin, worker, client)
  [ ] Asignar diferentes accesos a cada perfil
- [ ] Crear admin
  [x] Cada controlador debe tener agregar, listar todo, busqueda por parametro, editar y eliminar
  [ ] Realizar test en insomnia
  */
