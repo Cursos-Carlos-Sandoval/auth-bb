@@ -33,14 +33,12 @@ Route.group(() => {
   Route.get('books', 'BooksController.getAll')
   Route.get('books/:id', 'BooksController.getById')
 
-  Route.post('profile', 'ProfilesController.create') // TODO: Eliminar
-
   Route.group(() => {
     Route.put('books/update/:id', 'BooksController.update')
     Route.post('books', 'BooksController.store')
 
     Route.get('profile', 'ProfilesController.getAll')
     Route.get('profile/:id', 'ProfilesController.getById')
-    // Route.post('profile', 'ProfilesController.create')
+    Route.post('profile', 'ProfilesController.create')
   }).middleware('auth')
 }).prefix('api')

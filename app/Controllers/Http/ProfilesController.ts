@@ -4,7 +4,7 @@ import { ProfileDataObject } from '../../Utils/types'
 
 /* TODO reto 3
  [x] Validar la existencia de un usuario por su numero de identificacion
- [ ] Crear al menos tres tipos de perfiles (admin, worker, client)
+ [x] Crear al menos tres tipos de perfiles (admin, worker, client)
  [ ] Asignar diferentes accesos a cada perfil
  [x] Cada controlador debe tener agregar, listar todo, busqueda por parametro, editar y eliminar
  [ ] Realizar test en insomnia
