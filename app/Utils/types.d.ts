@@ -28,5 +28,5 @@ export interface BookDataObject {
   editorial: number
   format: string
   num_pages: number
-  user_id: UserDataObject.user_id
+  id: UserDataObject.id
 }

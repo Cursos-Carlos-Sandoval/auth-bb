@@ -18,22 +18,29 @@
 |
 */
 
+import { HttpContext } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
+Route.get('/', async ({ response }: HttpContext) => {
+  response.redirect().toPath('/api/books')
 })
 
 Route.group(() => {
   Route.post('register', 'AuthController.register')
   Route.post('login', 'AuthController.login')
+  Route.post('logout', 'AuthController.revokeSession')
+
+  Route.get('books', 'BooksController.getAll')
+  Route.get('books/:id', 'BooksController.getById')
+
+  Route.post('profile', 'ProfilesController.create') // TODO: Eliminar
 
   Route.group(() => {
-    Route.get('books', 'BooksController.index')
-    Route.get('books/:id', 'BooksController.show')
-
     Route.put('books/update/:id', 'BooksController.update')
-
     Route.post('books', 'BooksController.store')
+
+    Route.get('profile', 'ProfilesController.getAll')
+    Route.get('profile/:id', 'ProfilesController.getById')
+    // Route.post('profile', 'ProfilesController.create')
   }).middleware('auth')
 }).prefix('api')

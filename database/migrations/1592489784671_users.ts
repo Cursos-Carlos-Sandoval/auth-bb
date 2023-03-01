@@ -6,14 +6,14 @@ export default class UsersSchema extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       // User info
-      table.increments('user_id').primary().unsigned()
+      table.increments('id').primary().unsigned()
       table.string('first_name', 180).notNullable()
       table.string('last_name', 180).notNullable()
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('dni_type', 10).notNullable()
       table.string('dni', 10).notNullable().unique().index('user_dni')
-      table.integer('profile_id').unsigned()
+      table.integer('profile_id').unsigned().notNullable().defaultTo(3)
       table.foreign('profile_id').references('profiles.profile_id').onDelete('cascade')
 
       // User location

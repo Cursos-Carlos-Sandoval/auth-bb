@@ -14,8 +14,8 @@ export default class BooksSchema extends BaseSchema {
       table.integer('num_pages').unsigned().notNullable()
 
       // User info
-      table.integer('user_id').unsigned()
-      table.foreign('user_id').references('users.user_id').onDelete('cascade')
+      table.integer('id').unsigned()
+      table.foreign('id').references('users.id').onDelete('cascade')
 
       // System info
       table.timestamp('created_at', { useTz: true })

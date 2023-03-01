@@ -19,7 +19,7 @@ export default class Book extends BaseModel {
 
   // User info
   @column()
-  public user_id: number
+  public id: number
 
   // System info
   @column.dateTime({ autoCreate: true })
@@ -34,6 +34,6 @@ export default class Book extends BaseModel {
     this.editorial = properties.editorial
     this.format = properties.format
     this.num_pages = properties.num_pages
-    this.user_id = properties.user_id
+    this.id = properties.id
   }
 }

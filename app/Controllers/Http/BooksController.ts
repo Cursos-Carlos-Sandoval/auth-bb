@@ -24,7 +24,7 @@ export default class BooksController {
         'editorial',
         'format',
         'num_pages',
-        'user_id',
+        'id',
       ])
 
       if (await this.booksExists(requestData.book_id)) {
@@ -56,7 +56,7 @@ export default class BooksController {
       'editorial',
       'format',
       'num_pages',
-      'user_id',
+      'id',
     ])
     await Book.query().where('book_id', requestData.book_id).update({
       book_id: requestData.book_id,
@@ -65,7 +65,7 @@ export default class BooksController {
       editorial: requestData.editorial,
       format: requestData.format,
       num_pages: requestData.num_pages,
-      user_id: requestData.user_id,
+      id: requestData.id,
     })
 
     response.status(200).json({ msg: 'Book updated!' })

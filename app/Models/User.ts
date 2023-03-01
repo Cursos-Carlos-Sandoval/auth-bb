@@ -16,23 +16,20 @@ import Profile from './Profile'
 export default class User extends BaseModel {
   // User info
   @column({ isPrimary: true })
-  public user_id: number
+  public id: number
   @column()
   public first_name: string
   @column()
   public last_name: string
   @column()
   public email: string
-  @column({ serializeAs: null })
+  @column()
   public password: string
   @column()
   public dni_type: string
   @column()
   public dni: string
-  @hasOne(() => Profile, {
-    localKey: 'profile_id',
-    foreignKey: 'profile_id',
-  })
+  @hasOne(() => Profile)
   public profile_id: HasOne<typeof Profile>
 
   // User location

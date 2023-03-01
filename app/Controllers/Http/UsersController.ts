@@ -4,7 +4,7 @@ import { UserDataObject } from '../../Utils/types'
 
 export default class UsersController {
   public static async userExists(dni: UserDataObject['dni']): Promise<boolean> {
-    return User.findBy('dni', dni) !== null
+    return (await User.findBy('dni', dni)) !== null
   }
 
   public async getAll(): Promise<User[]> {
