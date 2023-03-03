@@ -19,7 +19,8 @@ export default class ProfilesController {
     return await Profile.all()
   }
 
-  public async getById(id: Profile['profile_id']) {
+  public async getById({ request }: HttpContextContract) {
+    const id = request.param('id')
     return await Profile.findBy('profile_id', id)
   }
 

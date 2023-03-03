@@ -11,10 +11,6 @@ export default class UsersController {
     return await User.all()
   }
 
-  public async getUsersAndProfiles(): Promise<User[]> {
-    return await User.query().preload('profile_id')
-  }
-
   public async findByDni({ request }: HttpContextContract): Promise<User | null> {
     const dni = request.param('dni')
     return await User.findBy('dni', dni)

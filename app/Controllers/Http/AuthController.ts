@@ -67,7 +67,7 @@ export default class AuthController {
     }
   }
 
-  public async login({ auth, request, response }: HttpContextContract) {
+  public async login({ request, response }: HttpContextContract) {
     const email = request.input('email')
     const password = request.input('password')
 
