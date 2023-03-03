@@ -28,20 +28,26 @@ Route.get('/', async ({ response }: HttpContext) => {
 Route.group(() => {
   Route.post('register', 'AuthController.register')
   Route.post('login', 'AuthController.login')
-  Route.post('logout', 'AuthController.revokeSession')
+
+  Route.post('profile', 'ProfilesController.create') // For dev
 
   Route.get('books', 'BooksController.getAll')
   Route.get('books/:id', 'BooksController.getById')
 
   Route.group(() => {
-    Route.put('books/update/:id', 'BooksController.update')
     Route.post('books', 'BooksController.create')
-    Route.delete('books', 'BooksController.delete')
+    Route.put('books/update/:id', 'BooksController.update')
+    Route.delete('books/:id', 'BooksController.delete')
 
     Route.get('profile', 'ProfilesController.getAll')
+    Route.get('profile/:id', 'ProfilesController.getById')
     Route.put('profile/update/:id', 'ProfilesController.update')
     Route.delete('profile/:id', 'ProfilesController.delete')
+
+    Route.get('users', 'UsersController.getAll')
+    Route.get('users/dni/:dni', 'UsersController.findByDni')
+    Route.get('users/email/:email', 'UsersController.findByEmail')
+    Route.put('users/:dni', 'UsersController.updateUser')
+    Route.delete('users/:dni', 'UsersController.deleteUser')
   }).middleware('auth')
-  Route.post('profile', 'ProfilesController.create')
-  Route.get('profile/:id', 'ProfilesController.getById')
 }).prefix('api')

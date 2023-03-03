@@ -18,11 +18,10 @@ export default class AuthJwt {
 
     try {
       AuthController.validateToken(token)
+      if (!AuthController.havePermission(token)) throw new Error('No permissions')
       await next()
     } catch (error) {
       return ctx.response.status(400).send('Fail in token')
     }
-
-    await next()
   }
 }

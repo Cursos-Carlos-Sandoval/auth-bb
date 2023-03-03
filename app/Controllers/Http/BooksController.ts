@@ -4,14 +4,15 @@ import { BookDataObject } from '../../Utils/types'
 
 export default class BooksController {
   private async booksExists(id: BookDataObject['book_id']): Promise<boolean> {
-    return Book.findBy('book_id', id) !== null
+    return (await Book.findBy('book_id', id)) !== null
   }
 
   public async getAll() {
     return Book.all()
   }
 
-  public async getById(id: Book['book_id']) {
+  public async getById({ request }: HttpContextContract) {
+    const id = request.param('id')
     return await Book.findBy('book_id', id)
   }
 

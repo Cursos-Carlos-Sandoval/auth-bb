@@ -33,6 +33,13 @@ export default class AuthController {
     return true
   }
 
+  public static havePermission(token: string) {
+    const decodeToken = jwt.decode(token, { complete: true })
+    console.table(decodeToken)
+    console.log(decodeToken?.payload['profile_id'] === 1)
+    return decodeToken?.payload['profile_id'] === 1
+  }
+
   public async register({ request, response }: HttpContextContract) {
     const inputData: UserDataObject = request.only([
       'first_name',

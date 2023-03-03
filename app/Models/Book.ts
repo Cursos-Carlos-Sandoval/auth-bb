@@ -34,6 +34,6 @@ export default class Book extends BaseModel {
     this.editorial = properties.editorial
     this.format = properties.format
     this.num_pages = properties.num_pages
-    this.id = properties.id
+    this.id = properties?.id
   }
 }
