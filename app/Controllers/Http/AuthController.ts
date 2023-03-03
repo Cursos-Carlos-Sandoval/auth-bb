@@ -2,8 +2,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { UserDataObject } from '../../Utils/types'
 import User from '../../Models/User'
 import UsersController from './UsersController'
-import { AuthContract, OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
+import { OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
 import Hash from '@ioc:Adonis/Core/Hash'
+import jwt from 'jsonwebtoken'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class AuthController {
   public static async getByEmail(email: string) {
@@ -14,8 +16,21 @@ export default class AuthController {
     return token.meta?.profile
   }
 
-  public static validateToken(auth: AuthContract) {
-    return auth.use('api').isLoggedIn
+  public static generateToken(payload: any) {
+    const options = {
+      expiresIn: '60 mins',
+    }
+
+    return jwt.sign(payload, Env.get('JWT_PRIVATE_KEY'), options)
+  }
+
+  public static validateToken(token: string) {
+    jwt.verify(token, Env.get('JWT_PRIVATE_KEY'), (error) => {
+      if (error) {
+        throw new Error('Expired token')
+      }
+    })
+    return true
   }
 
   public async register({ request, response }: HttpContextContract) {
@@ -64,8 +79,7 @@ export default class AuthController {
         return
       }
 
-      const token = await auth.use('api').attempt(email, password, {
-        expiresIn: '60 mins',
+      const token = AuthController.generateToken({
         profile_id: user.profile_id ?? 3, // 3 = Client
       })
       response.status(200).json({ token, msg: 'User successfully logged in' })
@@ -73,10 +87,5 @@ export default class AuthController {
       console.error(error)
       response.status(500).json({ msg: 'Internal server error!' })
     }
-  }
-
-  public async revokeSession({ auth, response }: HttpContextContract) {
-    await auth.use('api').revoke()
-    response.status(200).json({ revoked: true })
   }
 }
