@@ -39,6 +39,7 @@ Route.group(() => {
 
     Route.get('profile', 'ProfilesController.getAll')
     Route.get('profile/:id', 'ProfilesController.getById')
-    Route.post('profile', 'ProfilesController.create')
+    // Route.post('profile', 'ProfilesController.create')
   }).middleware('auth')
+  Route.post('profile', 'ProfilesController.create')
 }).prefix('api')

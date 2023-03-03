@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { UserDataObject } from '../../Utils/types'
 import User from '../../Models/User'
 import UsersController from './UsersController'
-import { OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
+import { AuthContract, OpaqueTokenContract } from '@ioc:Adonis/Addons/Auth'
 import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class AuthController {
@@ -13,6 +13,11 @@ export default class AuthController {
   public static getProfile(token: OpaqueTokenContract<User>) {
     return token.meta?.profile
   }
+
+  public static validateToken(auth: AuthContract) {
+    return auth.use('api').isLoggedIn
+  }
+
   public async register({ request, response }: HttpContextContract) {
     const inputData: UserDataObject = request.only([
       'first_name',
@@ -59,7 +64,10 @@ export default class AuthController {
         return
       }
 
-      const token = await auth.use('api').attempt(email, password)
+      const token = await auth.use('api').attempt(email, password, {
+        expiresIn: '60 mins',
+        profile_id: user.profile_id ?? 3, // 3 = Client
+      })
       response.status(200).json({ token, msg: 'User successfully logged in' })
     } catch (error) {
       console.error(error)

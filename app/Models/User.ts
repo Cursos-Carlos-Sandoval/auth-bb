@@ -1,17 +1,8 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import {
-  column,
-  beforeSave,
-  BaseModel,
-  hasMany,
-  HasMany,
-  hasOne,
-  HasOne,
-} from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Book from './Book'
 import { UserDataObject } from '../Utils/types'
-import Profile from './Profile'
 
 export default class User extends BaseModel {
   // User info
@@ -29,8 +20,8 @@ export default class User extends BaseModel {
   public dni_type: string
   @column()
   public dni: string
-  @hasOne(() => Profile)
-  public profile_id: HasOne<typeof Profile>
+  @column()
+  public profile_id: number
 
   // User location
   @column()

@@ -13,7 +13,7 @@ export default class UsersSchema extends BaseSchema {
       table.string('password', 180).notNullable()
       table.string('dni_type', 10).notNullable()
       table.string('dni', 10).notNullable().unique().index('user_dni')
-      table.integer('profile_id').unsigned().notNullable().defaultTo(3)
+      table.integer('profile_id').unsigned().notNullable()
       table.foreign('profile_id').references('profiles.profile_id').onDelete('cascade')
 
       // User location

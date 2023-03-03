@@ -9,6 +9,7 @@ export default class ApiTokens extends BaseSchema {
       table.integer('id').unsigned().references('id').inTable('users').onDelete('CASCADE')
       table.string('name').notNullable()
       table.string('type').notNullable()
+      table.integer('profile_id').notNullable()
       table.string('token', 64).notNullable()
 
       /**
